@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>books</title>
+  <style>
+    .dateRead {
+      color: gray;
+      font-size: 0.8em;
+    }
+    .title {
+      font-style: italic;
+    }
+    .yearOriginal {
+      color: lightgray;
+    }
+    summary {
+      list-style: none;
+    }
+    summary::-webkit-details-marker {
+      display: none;
+    }
+    .review {
+      background-color: #dbdbdb;
+    }
+    
+  </style>
+</head>
+<body>
+    <div class="book-list" id="book-list">
+    beep boop beep bop beep beep boop beeboobeeboobeeboobeeboobeeboo beep beeeeeep beep
+  </div>
+
+<script>
+  async function loadBooks() {
+  try {
+    console.log("Fetching books.json...");
+    const response = await fetch('books.json');
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    const books = await response.json();
+    console.log("Books loaded:", books);
+
+    const bookList = document.getElementById('book-list');
+
+    bookList.innerHTML = books.map(book => `
+      <div class="book-item">
+        <details>
+          <summary>
+            <span class="dateRead">${book.dateRead}</span>
+            <span class="title">${book.title}</span> – 
+            <span class="author">${book.author}</span>, 
+            <span class="yearPublished">${book.yearPublished}</span>
+          </summary>
+          <span class="review">${book.review}</span>
+        </details>
+      </div>
+    `).join('');
+  } catch (error) {
+    console.error("Error loading books:", error);
+    document.getElementById('book-list').innerHTML = `<p style="color: red;">Failed to load books. Check the console for errors.</p>`;
+  }
+}
+
+loadBooks();
+
+</script>
+  
+</body>
+</html>
