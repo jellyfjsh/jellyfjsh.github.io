@@ -35,7 +35,7 @@
   async function loadBooks() {
   try {
     console.log("Fetching books.json...");
-    const response = await fetch('books.json');
+    const response = await fetch('toread.json');
 
     if (!response.ok) {
       throw new Error(`HTTP error! Status: ${response.status}`);
