@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>media</title>
+  <style>
+    .date {
+      color: gray;
+      font-size: 0.8em;
+    }
+    .title {
+      font-style: italic;
+    }
+    .yearOriginal {
+      color: lightgray;
+    }
+    summary {
+      list-style: none;
+    }
+    summary::-webkit-details-marker {
+      display: none;
+    }
+    .review {
+      background-color: #dbdbdb;
+    }
+    
+  </style>
+</head>
+<body>
+    <div class="media-list" id="media-list">
+    beep boop beep bop beep beep boop beeboobeeboobeeboobeeboobeeboo beep beeeeeep beep
+  </div>
+
+<script>
+  async function loadMedia() {
+  try {
+    console.log("Fetching media.json...");
+    const response = await fetch('media.json');
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    const media = await response.json();
+    console.log("Media loaded:", media);
+
+    const mediaList = document.getElementById('media-list');
+
+    mediaList.innerHTML = media.map(media => `
+      <div class="media-item">
+        <details>
+          <summary>
+            <span class="date">${media.date}</span>
+            <span class="title">${media.title}</span> – 
+            <span class="author">${media.author}</span>, 
+            <span class="yearPublished">${media.yearPublished}</span>
+            <span class="yearOriginal">${media.yearOriginal}</span>
+
+          </summary>
+          <span class="review">${media.review}</span>
+        </details>
+      </div>
+    `).join('');
+  } catch (error) {
+    console.error("Error loading media:", error);
+    document.getElementById('media-list').innerHTML = `<p style="color: red;">sorry. try again?.</p>`;
+  }
+}
+
+loadMedia();
+
+</script>
+  
+</body>
+</html>
